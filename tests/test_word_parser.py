@@ -220,3 +220,15 @@ def test_in_week():
 
 def test_in_months():
     assert parse("in 2 months", today=date(2023, 10, 6)) == date(2023, 12, 6)
+
+
+def test_days_ago():
+    assert parse("3 days ago", today=date(2023, 10, 6)) == date(2023, 10, 3)
+
+
+def test_week_ago():
+    assert parse("one week ago", today=date(2023, 10, 6)) == date(2023, 9, 29)
+
+
+def test_months_ago():
+    assert parse("2 months ago", today=date(2023, 10, 6)) == date(2023, 8, 6)

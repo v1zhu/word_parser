@@ -214,6 +214,11 @@ def parse(s: str, today: date | None = None) -> date:
         years, months, days = _parse_offset(offset_str)
         return _apply_offset(today, years, months, days, 1)
 
+    if s_lower.endswith(" ago"):
+        offset_str = s_lower[:-4]
+        years, months, days = _parse_offset(offset_str)
+        return _apply_offset(today, years, months, days, -1)
+
     parsed = _parse_absolute_date(s_lower)
     if parsed is not None:
         return parsed
