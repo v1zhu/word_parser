@@ -11,7 +11,6 @@ def test_using_year_and_month():
 
 def test_next_tuesday():
     assert parser.word_parser(s = "next Tuesday", today = parser.date(2023, 10, 6)) == parser.date(2023, 10, 10)
-    2023-10-10
 
 def test_last_friday():
     assert parser.word_parser(s = "last Friday", today = parser.date(2023, 10, 6)) == parser.date(2023, 9, 29)
@@ -35,3 +34,12 @@ def test_end_of_month():
 
 def test_end_of_year():
     assert parser.word_parser(s = "three days before January 1st, 2025", today = parser.date(2023, 10, 6)) == parser.date(2024, 12, 29)
+
+def test_month_boundary_day_clamping():
+    assert parser.word_parser("one month after January 31st, 2024", today=parser.date(2023, 10, 6)) == parser.date(2024, 2, 29)
+
+def test_before_yesterday():
+    assert parser.word_parser("one day before yesterday", today=parser.date(2023, 10, 6)) == parser.date(2023, 10, 4)
+
+def test_twenty_days():
+    assert parser.word_parser("twenty days from today", today=parser.date(2023, 10, 6)) == parser.date(2023, 10, 26)
