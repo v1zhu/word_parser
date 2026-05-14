@@ -204,7 +204,7 @@ def parse(s: str, today: date | None = None) -> date:
                 diff = 7
             return today - timedelta(days=diff)
 
-    if s_lower == "today":
+    if s_lower in ("today", "now"):
         return today
     if s_lower == "yesterday":
         return today - timedelta(days=1)
@@ -235,7 +235,7 @@ def parse(s: str, today: date | None = None) -> date:
 
     sign = 1 if direction_word in ("after", "from") else -1
 
-    if ref_str == "today":
+    if ref_str in ("today", "now"):
         ref_date = today
     elif ref_str == "yesterday":
         ref_date = today - timedelta(days=1)

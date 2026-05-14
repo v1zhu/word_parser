@@ -252,3 +252,19 @@ def test_an_year_after():
     assert parse("an year after January 31st, 2024", today=date(2023, 10, 6)) == date(
         2025, 1, 31
     )
+
+
+def test_weeks_from_now():
+    assert parse("2 weeks from now", today=date(2023, 10, 6)) == date(2023, 10, 20)
+
+
+def test_singular_week_from_now():
+    assert parse("two week from now", today=date(2023, 10, 6)) == date(2023, 10, 20)
+
+
+def test_a_week_from_now():
+    assert parse("a week from now", today=date(2023, 10, 6)) == date(2023, 10, 13)
+
+
+def test_standalone_now():
+    assert parse("now", today=date(2023, 10, 6)) == date(2023, 10, 6)
