@@ -209,6 +209,11 @@ def parse(s: str, today: date | None = None) -> date:
     if s_lower == "tomorrow":
         return today + timedelta(days=1)
 
+    if s_lower.startswith("in "):
+        offset_str = s_lower[3:]
+        years, months, days = _parse_offset(offset_str)
+        return _apply_offset(today, years, months, days, 1)
+
     parsed = _parse_absolute_date(s_lower)
     if parsed is not None:
         return parsed

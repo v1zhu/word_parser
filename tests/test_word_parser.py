@@ -208,3 +208,15 @@ def test_standalone_yesterday():
 
 def test_standalone_tomorrow():
     assert parse("tomorrow", today=date(2023, 10, 6)) == date(2023, 10, 7)
+
+
+def test_in_days():
+    assert parse("in 5 days", today=date(2023, 10, 6)) == date(2023, 10, 11)
+
+
+def test_in_week():
+    assert parse("in one week", today=date(2023, 10, 6)) == date(2023, 10, 13)
+
+
+def test_in_months():
+    assert parse("in 2 months", today=date(2023, 10, 6)) == date(2023, 12, 6)
