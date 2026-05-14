@@ -1,4 +1,4 @@
 from datetime import date, timedelta
-from parser.core import word_parser
+from parser.core import parse
 
-__all__ = ["date", "timedelta", "word_parser"]
+__all__ = ["date", "timedelta", "parse"]

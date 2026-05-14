@@ -81,7 +81,7 @@ def _apply_offset(ref: date, years: int, months: int, days: int, sign: int) -> d
     return result
 
 
-def word_parser(s: str, today: date | None = None) -> date:
+def parse(s: str, today: date | None = None) -> date:
     if today is None:
         today = date.today()
 
