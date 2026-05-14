@@ -79,13 +79,13 @@ def _parse_absolute_date(s: str) -> date | None:
         month = MONTH_MAP[m.group(2).lower()]
         year = int(m.group(3))
         return date(year, month, day)
-    m = re.match(r"(\d{4})-(\d{2})-(\d{2})$", s)
+    m = re.match(r"(\d{4})-(\d{1,2})-(\d{1,2})$", s)
     if m:
         return date(int(m.group(1)), int(m.group(2)), int(m.group(3)))
-    m = re.match(r"(\d{4})/(\d{2})/(\d{2})$", s)
+    m = re.match(r"(\d{4})/(\d{1,2})/(\d{1,2})$", s)
     if m:
         return date(int(m.group(1)), int(m.group(2)), int(m.group(3)))
-    m = re.match(r"(\d{2})/(\d{2})/(\d{4})$", s)
+    m = re.match(r"(\d{1,2})/(\d{1,2})/(\d{4})$", s)
     if m:
         return date(int(m.group(3)), int(m.group(2)), int(m.group(1)))
     return None

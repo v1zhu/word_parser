@@ -120,3 +120,25 @@ def test_day_month_word_in_offset():
     assert parse("one week before 15 December 2025", today=date(2023, 10, 6)) == date(
         2025, 12, 8
     )
+
+
+def test_non_padded_slash_day():
+    assert parse("2025/12/3", today=date(2023, 10, 6)) == date(2025, 12, 3)
+
+
+def test_non_padded_slash_month():
+    assert parse("2025/1/15", today=date(2023, 10, 6)) == date(2025, 1, 15)
+
+
+def test_non_padded_dd_mm_yyyy():
+    assert parse("3/12/2025", today=date(2023, 10, 6)) == date(2025, 12, 3)
+
+
+def test_non_padded_iso():
+    assert parse("2025-1-5", today=date(2023, 10, 6)) == date(2025, 1, 5)
+
+
+def test_non_padded_in_offset():
+    assert parse("two days after 2025/12/3", today=date(2023, 10, 6)) == date(
+        2025, 12, 5
+    )
