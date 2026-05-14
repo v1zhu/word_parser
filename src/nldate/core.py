@@ -202,6 +202,13 @@ def parse(s: str, today: date | None = None) -> date:
                 diff = 7
             return today - timedelta(days=diff)
 
+    if s_lower == "today":
+        return today
+    if s_lower == "yesterday":
+        return today - timedelta(days=1)
+    if s_lower == "tomorrow":
+        return today + timedelta(days=1)
+
     parsed = _parse_absolute_date(s_lower)
     if parsed is not None:
         return parsed
@@ -220,6 +227,8 @@ def parse(s: str, today: date | None = None) -> date:
         ref_date = today
     elif ref_str == "yesterday":
         ref_date = today - timedelta(days=1)
+    elif ref_str == "tomorrow":
+        ref_date = today + timedelta(days=1)
     else:
         parsed = _parse_absolute_date(ref_str)
         if parsed is None:

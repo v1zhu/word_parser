@@ -196,3 +196,15 @@ def test_dotted_abbrev_month_in_offset():
     assert parse("two days after Dec. 15, 2025", today=date(2023, 10, 6)) == date(
         2025, 12, 17
     )
+
+
+def test_standalone_today():
+    assert parse("today", today=date(2023, 10, 6)) == date(2023, 10, 6)
+
+
+def test_standalone_yesterday():
+    assert parse("yesterday", today=date(2023, 10, 6)) == date(2023, 10, 5)
+
+
+def test_standalone_tomorrow():
+    assert parse("tomorrow", today=date(2023, 10, 6)) == date(2023, 10, 7)
