@@ -74,3 +74,25 @@ def test_twenty_days():
     assert parse("twenty days from today", today=date(2023, 10, 6)) == date(
         2023, 10, 26
     )
+
+
+def test_iso_date_after():
+    assert parse("one day after 2024-03-15", today=date(2023, 10, 6)) == date(
+        2024, 3, 16
+    )
+
+
+def test_iso_date_before():
+    assert parse("5 days before 2025-01-10", today=date(2023, 10, 6)) == date(
+        2025, 1, 5
+    )
+
+
+def test_iso_date_from():
+    assert parse("two weeks from 2024-06-01", today=date(2023, 10, 6)) == date(
+        2024, 6, 15
+    )
+
+
+def test_standalone_iso_date():
+    assert parse("2025-02-01", today=date(2023, 10, 6)) == date(2025, 2, 1)

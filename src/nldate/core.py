@@ -69,6 +69,9 @@ def _parse_absolute_date(s: str) -> date | None:
         day = int(m.group(2))
         year = int(m.group(3))
         return date(year, month, day)
+    m = re.match(r"(\d{4})-(\d{2})-(\d{2})$", s)
+    if m:
+        return date(int(m.group(1)), int(m.group(2)), int(m.group(3)))
     return None
 
 
@@ -137,6 +140,10 @@ def parse(s: str, today: date | None = None) -> date:
             elif diff == 0:
                 diff = 7
             return today - timedelta(days=diff)
+
+    parsed = _parse_absolute_date(s_lower)
+    if parsed is not None:
+        return parsed
 
     direction_match = re.search(r"\b(after|before|from)\b", s_lower)
     if not direction_match:
