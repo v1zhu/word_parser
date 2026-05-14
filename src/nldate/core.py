@@ -3,22 +3,51 @@ import re
 import calendar
 
 WORD_TO_NUM = {
-    "one": 1, "two": 2, "three": 3, "four": 4, "five": 5,
-    "six": 6, "seven": 7, "eight": 8, "nine": 9, "ten": 10,
-    "eleven": 11, "twelve": 12, "thirteen": 13, "fourteen": 14,
-    "fifteen": 15, "sixteen": 16, "seventeen": 17, "eighteen": 18,
-    "nineteen": 19, "twenty": 20,
+    "one": 1,
+    "two": 2,
+    "three": 3,
+    "four": 4,
+    "five": 5,
+    "six": 6,
+    "seven": 7,
+    "eight": 8,
+    "nine": 9,
+    "ten": 10,
+    "eleven": 11,
+    "twelve": 12,
+    "thirteen": 13,
+    "fourteen": 14,
+    "fifteen": 15,
+    "sixteen": 16,
+    "seventeen": 17,
+    "eighteen": 18,
+    "nineteen": 19,
+    "twenty": 20,
 }
 
 MONTH_MAP = {
-    "january": 1, "february": 2, "march": 3, "april": 4,
-    "may": 5, "june": 6, "july": 7, "august": 8,
-    "september": 9, "october": 10, "november": 11, "december": 12,
+    "january": 1,
+    "february": 2,
+    "march": 3,
+    "april": 4,
+    "may": 5,
+    "june": 6,
+    "july": 7,
+    "august": 8,
+    "september": 9,
+    "october": 10,
+    "november": 11,
+    "december": 12,
 }
 
 WEEKDAY_MAP = {
-    "monday": 0, "tuesday": 1, "wednesday": 2, "thursday": 3,
-    "friday": 4, "saturday": 5, "sunday": 6,
+    "monday": 0,
+    "tuesday": 1,
+    "wednesday": 2,
+    "thursday": 3,
+    "friday": 4,
+    "saturday": 5,
+    "sunday": 6,
 }
 
 
@@ -31,8 +60,9 @@ def _parse_number(word: str) -> int | None:
 def _parse_absolute_date(s: str) -> date | None:
     s = s.strip()
     m = re.match(
-        r'(january|february|march|april|may|june|july|august|september|october|november|december)\s+(\d{1,2})(?:st|nd|rd|th)?,?\s*(\d{4})',
-        s, re.IGNORECASE,
+        r"(january|february|march|april|may|june|july|august|september|october|november|december)\s+(\d{1,2})(?:st|nd|rd|th)?,?\s*(\d{4})",
+        s,
+        re.IGNORECASE,
     )
     if m:
         month = MONTH_MAP[m.group(1).lower()]
@@ -44,12 +74,12 @@ def _parse_absolute_date(s: str) -> date | None:
 
 def _parse_offset(s: str) -> tuple[int, int, int]:
     years = months = days = 0
-    parts = re.split(r'\s+and\s+', s)
+    parts = re.split(r"\s+and\s+", s)
     for part in parts:
         part = part.strip()
         if not part:
             continue
-        m = re.match(r'(\S+)\s+(year|years|month|months|week|weeks|day|days)', part)
+        m = re.match(r"(\S+)\s+(year|years|month|months|week|weeks|day|days)", part)
         if not m:
             raise ValueError(f"Invalid offset part: {part}")
         num_str = m.group(1)
@@ -87,7 +117,10 @@ def parse(s: str, today: date | None = None) -> date:
 
     s_lower = s.lower().strip()
 
-    m = re.match(r'(next|last)\s+(monday|tuesday|wednesday|thursday|friday|saturday|sunday)', s_lower)
+    m = re.match(
+        r"(next|last)\s+(monday|tuesday|wednesday|thursday|friday|saturday|sunday)",
+        s_lower,
+    )
     if m:
         direction = m.group(1)
         target = WEEKDAY_MAP[m.group(2)]
@@ -105,13 +138,13 @@ def parse(s: str, today: date | None = None) -> date:
                 diff = 7
             return today - timedelta(days=diff)
 
-    direction_match = re.search(r'\b(after|before|from)\b', s_lower)
+    direction_match = re.search(r"\b(after|before|from)\b", s_lower)
     if not direction_match:
         raise ValueError(f"Invalid input: {s}")
 
     direction_word = direction_match.group(1)
-    offset_str = s_lower[:direction_match.start()].strip()
-    ref_str = s_lower[direction_match.end():].strip()
+    offset_str = s_lower[: direction_match.start()].strip()
+    ref_str = s_lower[direction_match.end() :].strip()
 
     sign = 1 if direction_word in ("after", "from") else -1
 
