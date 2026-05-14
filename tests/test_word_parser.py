@@ -232,3 +232,23 @@ def test_week_ago():
 
 def test_months_ago():
     assert parse("2 months ago", today=date(2023, 10, 6)) == date(2023, 8, 6)
+
+
+def test_a_week_ago():
+    assert parse("a week ago", today=date(2023, 10, 6)) == date(2023, 9, 29)
+
+
+def test_a_day_from_today():
+    assert parse("a day from today", today=date(2023, 10, 6)) == date(2023, 10, 7)
+
+
+def test_a_month_after():
+    assert parse("a month after January 31st, 2024", today=date(2023, 10, 6)) == date(
+        2024, 2, 29
+    )
+
+
+def test_an_year_after():
+    assert parse("an year after January 31st, 2024", today=date(2023, 10, 6)) == date(
+        2025, 1, 31
+    )
