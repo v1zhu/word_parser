@@ -27,17 +27,54 @@ WORD_TO_NUM = {
 
 MONTH_MAP = {
     "january": 1,
+    "jan": 1,
     "february": 2,
+    "feb": 2,
     "march": 3,
+    "mar": 3,
     "april": 4,
+    "apr": 4,
     "may": 5,
     "june": 6,
+    "jun": 6,
     "july": 7,
+    "jul": 7,
     "august": 8,
+    "aug": 8,
     "september": 9,
+    "sep": 9,
+    "sept": 9,
     "october": 10,
+    "oct": 10,
     "november": 11,
+    "nov": 11,
     "december": 12,
+    "dec": 12,
+}
+
+ORDINAL_MAP = {
+    "first": 1,
+    "second": 2,
+    "third": 3,
+    "fourth": 4,
+    "fifth": 5,
+    "sixth": 6,
+    "seventh": 7,
+    "eighth": 8,
+    "ninth": 9,
+    "tenth": 10,
+    "eleventh": 11,
+    "twelfth": 12,
+    "thirteenth": 13,
+    "fourteenth": 14,
+    "fifteenth": 15,
+    "sixteenth": 16,
+    "seventeenth": 17,
+    "eighteenth": 18,
+    "nineteenth": 19,
+    "twentieth": 20,
+    "thirtieth": 30,
+    "thirtyfirst": 31,
 }
 
 WEEKDAY_MAP = {
@@ -57,28 +94,36 @@ def _parse_number(word: str) -> int | None:
     return WORD_TO_NUM.get(word)
 
 
+def _parse_day(s: str) -> int | None:
+    s = s.lower()
+    m = re.match(r"(\d{1,2})(?:st|nd|rd|th)?$", s)
+    if m:
+        return int(m.group(1))
+    return ORDINAL_MAP.get(s) or WORD_TO_NUM.get(s)
+
+
 def _parse_absolute_date(s: str) -> date | None:
     s = s.strip()
     m = re.match(
-        r"(january|february|march|april|may|june|july|august|september|october|november|december)\s+(\d{1,2})(?:st|nd|rd|th)?,?\s*(\d{4})",
+        r"([a-z]+)\s+((?:\d{1,2}(?:st|nd|rd|th)?|[a-z]+)),?\s*(\d{4})",
         s,
         re.IGNORECASE,
     )
     if m:
-        month = MONTH_MAP[m.group(1).lower()]
-        day = int(m.group(2))
-        year = int(m.group(3))
-        return date(year, month, day)
+        month = MONTH_MAP.get(m.group(1).lower())
+        day = _parse_day(m.group(2))
+        if month is not None and day is not None:
+            return date(int(m.group(3)), month, day)
     m = re.match(
-        r"(\d{1,2})\s+(january|february|march|april|may|june|july|august|september|october|november|december)\s+(\d{4})",
+        r"((?:\d{1,2}(?:st|nd|rd|th)?|[a-z]+))\s+([a-z]+)\s+(\d{4})",
         s,
         re.IGNORECASE,
     )
     if m:
-        day = int(m.group(1))
-        month = MONTH_MAP[m.group(2).lower()]
-        year = int(m.group(3))
-        return date(year, month, day)
+        month = MONTH_MAP.get(m.group(2).lower())
+        day = _parse_day(m.group(1))
+        if month is not None and day is not None:
+            return date(int(m.group(3)), month, day)
     m = re.match(r"(\d{4})-(\d{1,2})-(\d{1,2})$", s)
     if m:
         return date(int(m.group(1)), int(m.group(2)), int(m.group(3)))

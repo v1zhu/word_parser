@@ -142,3 +142,43 @@ def test_non_padded_in_offset():
     assert parse("two days after 2025/12/3", today=date(2023, 10, 6)) == date(
         2025, 12, 5
     )
+
+
+def test_abbrev_month_standalone():
+    assert parse("Dec 1, 2025", today=date(2023, 10, 6)) == date(2025, 12, 1)
+
+
+def test_abbrev_month_padded():
+    assert parse("Dec 01, 2025", today=date(2023, 10, 6)) == date(2025, 12, 1)
+
+
+def test_abbrev_month_no_comma():
+    assert parse("Jan 15 2024", today=date(2023, 10, 6)) == date(2024, 1, 15)
+
+
+def test_abbrev_month_in_offset():
+    assert parse("three days after Dec 1, 2025", today=date(2023, 10, 6)) == date(
+        2025, 12, 4
+    )
+
+
+def test_word_day_month_first():
+    assert parse("December first, 2025", today=date(2023, 10, 6)) == date(2025, 12, 1)
+
+
+def test_word_day_month_second():
+    assert parse("January second 2024", today=date(2023, 10, 6)) == date(2024, 1, 2)
+
+
+def test_word_day_before_month():
+    assert parse("fifteenth March 2024", today=date(2023, 10, 6)) == date(2024, 3, 15)
+
+
+def test_word_day_in_offset():
+    assert parse("one day after December first, 2025", today=date(2023, 10, 6)) == date(
+        2025, 12, 2
+    )
+
+
+def test_word_day_case_insensitive():
+    assert parse("DECEMBER FIRST, 2025", today=date(2023, 10, 6)) == date(2025, 12, 1)
