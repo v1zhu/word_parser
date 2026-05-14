@@ -182,3 +182,17 @@ def test_word_day_in_offset():
 
 def test_word_day_case_insensitive():
     assert parse("DECEMBER FIRST, 2025", today=date(2023, 10, 6)) == date(2025, 12, 1)
+
+
+def test_dotted_abbrev_month():
+    assert parse("Dec. 1, 2025", today=date(2023, 10, 6)) == date(2025, 12, 1)
+
+
+def test_dotted_abbrev_month_day_before():
+    assert parse("1 Jan. 2025", today=date(2023, 10, 6)) == date(2025, 1, 1)
+
+
+def test_dotted_abbrev_month_in_offset():
+    assert parse("two days after Dec. 15, 2025", today=date(2023, 10, 6)) == date(
+        2025, 12, 17
+    )

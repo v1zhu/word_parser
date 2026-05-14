@@ -105,22 +105,22 @@ def _parse_day(s: str) -> int | None:
 def _parse_absolute_date(s: str) -> date | None:
     s = s.strip()
     m = re.match(
-        r"([a-z]+)\s+((?:\d{1,2}(?:st|nd|rd|th)?|[a-z]+)),?\s*(\d{4})",
+        r"([a-z]+\.?)\s+((?:\d{1,2}(?:st|nd|rd|th)?|[a-z]+)),?\s*(\d{4})",
         s,
         re.IGNORECASE,
     )
     if m:
-        month = MONTH_MAP.get(m.group(1).lower())
+        month = MONTH_MAP.get(m.group(1).lower().rstrip("."))
         day = _parse_day(m.group(2))
         if month is not None and day is not None:
             return date(int(m.group(3)), month, day)
     m = re.match(
-        r"((?:\d{1,2}(?:st|nd|rd|th)?|[a-z]+))\s+([a-z]+)\s+(\d{4})",
+        r"((?:\d{1,2}(?:st|nd|rd|th)?|[a-z]+))\s+([a-z]+\.?)\s+(\d{4})",
         s,
         re.IGNORECASE,
     )
     if m:
-        month = MONTH_MAP.get(m.group(2).lower())
+        month = MONTH_MAP.get(m.group(2).lower().rstrip("."))
         day = _parse_day(m.group(1))
         if month is not None and day is not None:
             return date(int(m.group(3)), month, day)
