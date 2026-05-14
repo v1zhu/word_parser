@@ -96,3 +96,27 @@ def test_iso_date_from():
 
 def test_standalone_iso_date():
     assert parse("2025-02-01", today=date(2023, 10, 6)) == date(2025, 2, 1)
+
+
+def test_slash_date_yyyy_mm_dd():
+    assert parse("2025/12/04", today=date(2023, 10, 6)) == date(2025, 12, 4)
+
+
+def test_slash_date_dd_mm_yyyy():
+    assert parse("04/12/2025", today=date(2023, 10, 6)) == date(2025, 12, 4)
+
+
+def test_day_month_word_yyyy():
+    assert parse("15 January 2024", today=date(2023, 10, 6)) == date(2024, 1, 15)
+
+
+def test_slash_date_in_offset():
+    assert parse("three days after 2025/11/20", today=date(2023, 10, 6)) == date(
+        2025, 11, 23
+    )
+
+
+def test_day_month_word_in_offset():
+    assert parse("one week before 15 December 2025", today=date(2023, 10, 6)) == date(
+        2025, 12, 8
+    )
