@@ -140,11 +140,8 @@ def _parse_absolute_date(s: str) -> date | None:
 
 def _parse_offset(s: str) -> tuple[int, int, int]:
     years = months = days = 0
-    parts = re.split(r"\s+and\s+", s)
+    parts = [p.strip() for p in re.split(r"\s+and\s+|,\s*", s) if p.strip()]
     for part in parts:
-        part = part.strip()
-        if not part:
-            continue
         m = re.match(r"(\S+)\s+(year|years|month|months|week|weeks|day|days)", part)
         if not m:
             raise ValueError(f"Invalid offset part: {part}")
