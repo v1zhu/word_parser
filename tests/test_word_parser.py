@@ -274,3 +274,11 @@ def test_comma_separated_offset():
     assert parse(
         "2 years, 3 months before Dec. 1, 2025", today=date(2023, 10, 6)
     ) == date(2023, 9, 1)
+
+
+def test_the_day_after_tomorrow():
+    assert parse("the day after tomorrow", today=date(2023, 10, 6)) == date(2023, 10, 8)
+
+
+def test_the_week_from_now():
+    assert parse("the week from now", today=date(2023, 10, 6)) == date(2023, 10, 13)

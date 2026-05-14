@@ -5,6 +5,7 @@ import calendar
 WORD_TO_NUM = {
     "a": 1,
     "an": 1,
+    "the": 1,
     "one": 1,
     "two": 2,
     "three": 3,
